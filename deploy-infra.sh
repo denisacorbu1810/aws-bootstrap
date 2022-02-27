@@ -1,7 +1,7 @@
 #!/bin/bash
 
 STACK_NAME=awsbootstrap
-REGION=eu-west-1
+REGION=us-east-1
 CLI_PROFILE=awsbootstrap
 
 EC2_INSTANCE_TYPE=t2.micro
@@ -50,5 +50,8 @@ aws cloudformation deploy \
 if [ $? -eq 0 ]; then
   aws cloudformation list-exports \
     --profile awsbootstrap \
-    --query "Exports[?Name=='InstanceEndpoint'].Value"
+    --query "Exports[?starts_with(Name,'InstanceEndpoint')].Value"
+  aws cloudformation list-exports \
+    --profile awsbootstrap \
+    --query "Exports[?starts_with(Name,'LBEndpoint')].Value"
 fi
